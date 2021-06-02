@@ -233,7 +233,7 @@ function speak(text) {
 }
 
 async function uploadImageAsync(uri) {
-  const apiUrl = 'http://192.168.1.103:8000/upload';
+  const apiUrl = 'http://52.172.148.196:8000/upload';
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 
