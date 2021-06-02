@@ -105,7 +105,7 @@ export default class App extends Component {
         // aspect: [4, 3],
         allowsEditing: false,
         // aspect: [4, 3],
-        quality: 1,
+        quality: 0,
       });
 
       this._handleImagePicked(pickerResult);
@@ -128,7 +128,7 @@ export default class App extends Component {
         // aspect: [4, 3],
         allowsEditing: false,
         // aspect: [4, 3],
-        quality: 1,
+        quality: 0,
       });
 
       this._handleImagePickedText(pickerResult);
@@ -145,7 +145,7 @@ export default class App extends Component {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
         // aspect: [4, 3],
-        quality: 1,
+        quality: 0,
       });
 
       this._handleImagePicked(pickerResult);
@@ -161,13 +161,16 @@ export default class App extends Component {
       });
 
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri);
-        uploadResult = await uploadResponse.json();
-        this.setState({
-          image: uploadResult.location,
-        });
-        // speak(response);
+        uploadImageAsync(pickerResult.uri);
       }
+
+      // if (!pickerResult.cancelled) {
+      //   uploadResponse = await uploadImageAsync(pickerResult.uri);
+      //   uploadResult = await uploadResponse.json();
+      //   this.setState({
+      //     image: uploadResult.location,
+      //   });
+      // speak(response);
     } catch (e) {
       // console.log({ uploadResponse });
       // console.log({ uploadResult });
@@ -189,13 +192,23 @@ export default class App extends Component {
       });
 
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsyncText(pickerResult.uri);
-        uploadResult = await uploadResponse.json();
-        this.setState({
-          image: uploadResult.location,
-        });
+        // uploadResponse = await uploadImageAsyncText(pickerResult.uri);
+        // uploadResult = await uploadResponse.json();
+        // this.setState({
+        //   image: uploadResult.location,
+        // });
         // speak(response);
+        uploadImageAsyncText(pickerResult.uri);
       }
+
+      // if (!pickerResult.cancelled) {
+      //   uploadResponse = await uploadImageAsyncText(pickerResult.uri);
+      //   uploadResult = await uploadResponse.json();
+      //   this.setState({
+      //     image: uploadResult.location,
+      //   });
+      //   // speak(response);
+      // }
     } catch (e) {
       // console.log({ uploadResponse });
       // console.log({ uploadResult });
@@ -217,7 +230,7 @@ function speak(text) {
 }
 
 async function uploadImageAsync(uri) {
-  const apiUrl = 'http://192.168.1.106:5000/upload';
+  const apiUrl = 'http://52.172.148.196:8000/upload';
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 
@@ -244,11 +257,11 @@ async function uploadImageAsync(uri) {
     Speech.speak(response);
   }
   await getData();
-  return fetch(apiUrl, options);
+  // return fetch(apiUrl, options);
 }
 
 async function uploadImageAsyncText(uri) {
-  const apiUrl = 'http://192.168.1.106:5000/uploadText';
+  const apiUrl = 'http://52.172.148.196:8000/uploadText';
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 
@@ -275,7 +288,7 @@ async function uploadImageAsyncText(uri) {
     speak(response);
   }
   await getData();
-  return fetch(apiUrl, options);
+  // return fetch(apiUrl, options);
 }
 
 const styles = StyleSheet.create({
