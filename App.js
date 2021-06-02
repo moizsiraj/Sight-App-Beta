@@ -30,11 +30,14 @@ export default class App extends Component {
       <View style={styles.container}>
         <StatusBar barStyle='default' />
 
-        <Text style={styles.exampleText}>Choose Text or Object</Text>
+        <Text style={styles.exampleText}>iSight</Text>
 
-        <Button onPress={this._takePhotoText} title='Text' />
-
-        <Button onPress={this._takePhoto} title='Object' />
+        <Button
+          onPress={this._takePhoto}
+          title='Classify Object or Read Text'
+        />
+        <Text style={styles.exampleSpace}></Text>
+        <Button onPress={() => Speech.stop()} title='Stop Speaking' />
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
@@ -230,7 +233,7 @@ function speak(text) {
 }
 
 async function uploadImageAsync(uri) {
-  const apiUrl = 'http://52.172.148.196:8000/upload';
+  const apiUrl = 'http://192.168.1.103:8000/upload';
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
 
@@ -253,7 +256,7 @@ async function uploadImageAsync(uri) {
   async function getData() {
     response = await fetch(apiUrl, options);
     const json = await response.json();
-    response = 'This is a' + json.txt;
+    response = json.txt;
     Speech.speak(response);
   }
   await getData();
@@ -299,11 +302,19 @@ const styles = StyleSheet.create({
   },
 
   exampleText: {
-    fontSize: 20,
+    fontSize: 30,
     marginBottom: 20,
     marginHorizontal: 15,
     textAlign: 'center',
   },
+
+  exampleSpace: {
+    fontSize: 2,
+    marginBottom: 10,
+    marginHorizontal: 15,
+    textAlign: 'center',
+  },
+
   maybeRenderUploading: {
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.4)',
